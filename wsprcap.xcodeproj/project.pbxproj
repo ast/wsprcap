@@ -32,7 +32,7 @@
 		B1FB5A7B2045AF7200BEF1AA /* circular_buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circular_buffer.h; sourceTree = "<group>"; };
 		B1FB5A7C2045AF7200BEF1AA /* circular_buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = circular_buffer.c; sourceTree = "<group>"; };
 		B1FB5A7D2045AF7200BEF1AA /* alsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alsa.h; sourceTree = "<group>"; };
-		B1FB5A7E2045AF7200BEF1AA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1FB5A832045B57600BEF1AA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +49,7 @@
 		B1FB5A652045AF5B00BEF1AA = {
 			isa = PBXGroup;
 			children = (
+				B1FB5A832045B57600BEF1AA /* README.md */,
 				B1FB5A702045AF5B00BEF1AA /* wsprcap */,
 				B1FB5A6F2045AF5B00BEF1AA /* Products */,
 			);
@@ -66,7 +67,6 @@
 			isa = PBXGroup;
 			children = (
 				B1FB5A7A2045AF7200BEF1AA /* meson.build */,
-				B1FB5A7E2045AF7200BEF1AA /* README.md */,
 				B1FB5A782045AF7200BEF1AA /* alsa.c */,
 				B1FB5A7D2045AF7200BEF1AA /* alsa.h */,
 				B1FB5A7C2045AF7200BEF1AA /* circular_buffer.c */,
