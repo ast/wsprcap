@@ -10,6 +10,12 @@
 		B1FB5A7F2045AF7200BEF1AA /* alsa.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A782045AF7200BEF1AA /* alsa.c */; };
 		B1FB5A802045AF7200BEF1AA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A792045AF7200BEF1AA /* main.c */; };
 		B1FB5A812045AF7200BEF1AA /* circular_buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A7C2045AF7200BEF1AA /* circular_buffer.c */; };
+		B1FB5A912046880100BEF1AA /* fano.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A87204687FF00BEF1AA /* fano.c */; };
+		B1FB5A922046880100BEF1AA /* tab.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A8A204687FF00BEF1AA /* tab.c */; };
+		B1FB5A932046880100BEF1AA /* wsprd_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A8B2046880000BEF1AA /* wsprd_utils.c */; };
+		B1FB5A942046880100BEF1AA /* wsprsim_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A8D2046880000BEF1AA /* wsprsim_utils.c */; };
+		B1FB5A952046880100BEF1AA /* nhash.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A8E2046880100BEF1AA /* nhash.c */; };
+		B1FB5A962046880100BEF1AA /* wsprd.c in Sources */ = {isa = PBXBuildFile; fileRef = B1FB5A8F2046880100BEF1AA /* wsprd.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +39,19 @@
 		B1FB5A7C2045AF7200BEF1AA /* circular_buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = circular_buffer.c; sourceTree = "<group>"; };
 		B1FB5A7D2045AF7200BEF1AA /* alsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alsa.h; sourceTree = "<group>"; };
 		B1FB5A832045B57600BEF1AA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1FB5A85204687FE00BEF1AA /* wsprd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wsprd.h; sourceTree = "<group>"; };
+		B1FB5A86204687FE00BEF1AA /* metric_tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metric_tables.h; sourceTree = "<group>"; };
+		B1FB5A87204687FF00BEF1AA /* fano.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fano.c; sourceTree = "<group>"; };
+		B1FB5A88204687FF00BEF1AA /* fano.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fano.h; sourceTree = "<group>"; };
+		B1FB5A89204687FF00BEF1AA /* nhash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nhash.h; sourceTree = "<group>"; };
+		B1FB5A8A204687FF00BEF1AA /* tab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tab.c; sourceTree = "<group>"; };
+		B1FB5A8B2046880000BEF1AA /* wsprd_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wsprd_utils.c; sourceTree = "<group>"; };
+		B1FB5A8C2046880000BEF1AA /* wsprd_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wsprd_utils.h; sourceTree = "<group>"; };
+		B1FB5A8D2046880000BEF1AA /* wsprsim_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wsprsim_utils.c; sourceTree = "<group>"; };
+		B1FB5A8E2046880100BEF1AA /* nhash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = nhash.c; sourceTree = "<group>"; };
+		B1FB5A8F2046880100BEF1AA /* wsprd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wsprd.c; sourceTree = "<group>"; };
+		B1FB5A902046880100BEF1AA /* wsprsim_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wsprsim_utils.h; sourceTree = "<group>"; };
+		B1FB5A9720468BCE00BEF1AA /* meson.build */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = meson.build; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				B1FB5A7A2045AF7200BEF1AA /* meson.build */,
+				B1FB5A84204687C500BEF1AA /* wsprd */,
 				B1FB5A782045AF7200BEF1AA /* alsa.c */,
 				B1FB5A7D2045AF7200BEF1AA /* alsa.h */,
 				B1FB5A7C2045AF7200BEF1AA /* circular_buffer.c */,
@@ -74,6 +94,26 @@
 				B1FB5A792045AF7200BEF1AA /* main.c */,
 			);
 			path = wsprcap;
+			sourceTree = "<group>";
+		};
+		B1FB5A84204687C500BEF1AA /* wsprd */ = {
+			isa = PBXGroup;
+			children = (
+				B1FB5A9720468BCE00BEF1AA /* meson.build */,
+				B1FB5A87204687FF00BEF1AA /* fano.c */,
+				B1FB5A88204687FF00BEF1AA /* fano.h */,
+				B1FB5A86204687FE00BEF1AA /* metric_tables.h */,
+				B1FB5A8E2046880100BEF1AA /* nhash.c */,
+				B1FB5A89204687FF00BEF1AA /* nhash.h */,
+				B1FB5A8A204687FF00BEF1AA /* tab.c */,
+				B1FB5A8B2046880000BEF1AA /* wsprd_utils.c */,
+				B1FB5A8C2046880000BEF1AA /* wsprd_utils.h */,
+				B1FB5A8F2046880100BEF1AA /* wsprd.c */,
+				B1FB5A85204687FE00BEF1AA /* wsprd.h */,
+				B1FB5A8D2046880000BEF1AA /* wsprsim_utils.c */,
+				B1FB5A902046880100BEF1AA /* wsprsim_utils.h */,
+			);
+			path = wsprd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,9 +173,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1FB5A942046880100BEF1AA /* wsprsim_utils.c in Sources */,
+				B1FB5A922046880100BEF1AA /* tab.c in Sources */,
+				B1FB5A952046880100BEF1AA /* nhash.c in Sources */,
 				B1FB5A802045AF7200BEF1AA /* main.c in Sources */,
+				B1FB5A932046880100BEF1AA /* wsprd_utils.c in Sources */,
 				B1FB5A812045AF7200BEF1AA /* circular_buffer.c in Sources */,
+				B1FB5A962046880100BEF1AA /* wsprd.c in Sources */,
 				B1FB5A7F2045AF7200BEF1AA /* alsa.c in Sources */,
+				B1FB5A912046880100BEF1AA /* fano.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

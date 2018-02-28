@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include "circular_buffer.h"
+#include "wsprd/wsprd.h"
 #include "alsa.h"
 
 // "Dial" frequencies.
@@ -38,6 +39,79 @@ next_even_minute()
     time_t t1 = t0 - (t0 % 120) + 120;
     // printf("time is %ld will trigger %ld\n", t0, t1 + 120);
     return t1;
+}
+
+static void
+write_file(const char *c2file, const float complex* data) {
+    printf("Writing to file: %s\n", c2file);
+    
+    FILE *file = fopen(c2file, "w");
+    if (!file) {
+        perror("fopen");
+        return;
+    }
+    
+    // write header
+    int ntrmin = 2; // WSPR type 2 min
+    double dfreq = 7.0400980;
+    fwrite(c2file, 14, 1, file);
+    fwrite(&ntrmin, sizeof(int), 1, file);
+    fwrite(&dfreq, sizeof(double), 1, file);
+    fwrite(data, sizeof(float complex), 45000, file);
+    fclose(file);
+}
+
+static void
+decode(const char* date, const char *uttime, const float complex *data)
+{
+    const uint32_t N = 45000;
+    
+    struct decoder_options options;
+    strcpy(options.date, date);
+    strcpy(options.uttime, uttime);
+    options.freq = 7040100;
+    options.npasses = 2;
+    options.quickmode = 0;
+    strcpy(options.rcall, "sm6wjm");
+    strcpy(options.rloc, "JO67ap");
+    options.subtraction = 1;
+    options.usehashtable = 0;
+    
+    float *idat = malloc(sizeof(float) * N);
+    float *qdat = malloc(sizeof(float) * N);
+    
+    if (!idat || !qdat) {
+        perror("malloc");
+        return;
+    }
+    
+    // TODO: fix inversion
+    for (int n = 0; n < N; n++) {
+        idat[n] = cimagf(data[n]);
+        qdat[n] = crealf(data[n]);
+    }
+    
+    struct decoder_results *dec_results = calloc(50, sizeof(struct decoder_results));
+    if (!dec_results) {
+        perror("calloc");
+        return;
+    }
+    
+    int32_t n_results = 0;
+    wspr_decode(idat, qdat, N, options, dec_results, &n_results);
+    
+    for (int i = 0; i < n_results; i++) {
+        printf("%6s %4s %3d %3.0f %5.2f %11.7f  %-22s %2d %5u %4d\n",
+               options.date, options.uttime,
+               (int)(10*dec_results[i].sync),
+               dec_results[i].snr, dec_results[i].dt, dec_results[i].freq,
+               dec_results[i].message, (int)dec_results[i].drift, dec_results[i].cycles/81,
+               dec_results[i].jitter);
+    }
+    
+    free(dec_results);
+    free(idat);
+    free(qdat);
 }
 
 int main(int argc, const char * argv[]) {
@@ -66,23 +140,24 @@ int main(int argc, const char * argv[]) {
     
     __block circular_buffer_t cb;
     // 2^19 closest power of two above sizeof(float complex) * 45000
-    cb_init(&cb, 524288);
+    cb_init(&cb, 524288 * 2);
     
     // Construct a timespec with a value of the next even minute.
     struct timespec tspec;
     tspec.tv_sec = next_even_minute();
     tspec.tv_nsec = 0;
     dispatch_time_t when = dispatch_walltime(&tspec, 120 * NSEC_PER_SEC);
+    //dispatch_time_t when = dispatch_walltime(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
     
     // Periodic task that writes the ringbuffer to file
     // No mutex needed since int should be atomic.
     // Single producer / consumer.
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(timer, when, 120 * NSEC_PER_SEC, 0);
+    //dispatch_source_set_timer(timer, when, 2 * NSEC_PER_SEC, 0);
     
     dispatch_source_set_event_handler(timer, ^{
-        
         // time to string
         time_t t;
         struct tm *tm;
@@ -91,22 +166,16 @@ int main(int argc, const char * argv[]) {
         
         char c2file[15];
         strftime(c2file, sizeof(c2file), "%y%m%d_%H%M.c2", tm);
+
+        char date[7];
+        char uttime[5];
+        strftime(date, sizeof(date), "%y%m%d", tm);
+        strftime(uttime, sizeof(uttime), "%H%M", tm);
         
         float complex *data = cb_readptr_history(&cb, 45000 * sizeof(float complex));
-        printf("Writing to file: %s\n", c2file);
         
-        //sprintf(c2file, "%d.c2", (int)t);
-        
-        FILE *file = fopen(c2file, "w");
-        
-        // write header
-        int ntrmin = 2;
-        double dfreq = 7.0400980;
-        fwrite(c2file, sizeof(c2file) - 1, 1, file);
-        fwrite(&ntrmin, sizeof(int), 1, file);
-        fwrite(&dfreq, sizeof(double), 1, file);
-        fwrite(data, sizeof(float complex), 45000, file);
-        fclose(file);
+        // write_file(c2file, data);
+        decode(date, uttime, data);
     });
     dispatch_resume(timer);
     
@@ -119,6 +188,7 @@ int main(int argc, const char * argv[]) {
             fprintf(stderr, "sndpcm wait %d\n", (int) err);
             snd_pcm_recover(pcm, (int)err, 0);
             snd_pcm_start(pcm);
+            continue;
         }
         
         frames = snd_pcm_avail_update(pcm);
